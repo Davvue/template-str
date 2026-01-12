@@ -48,5 +48,11 @@
   "files": [
     "dist"
   ],
+  "homepage": "https://github.com/Davvue/template-str#readme",
+  "bugs": "https://github.com/Davvue/template-str/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Davvue/template-str.git"
+  },
   "private": false
 }
