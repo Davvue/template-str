@@ -6,12 +6,15 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rimraf dist",
     "build": "tsup",
     "test": "jest",
+    "test:coverage": "jest",
     "lint": "npx eslint ./src",
     "lint:fix": "npx eslint ./src --fix",
-    "prettier": "npx prettier ./src",
-    "prettier:fix": "npx prettier --write ./src"
+    "format": "npx prettier ./src",
+    "format:fix": "npx prettier --write ./src",
+    "prepublishOnly": "npm run test && npm run lint && npm run build"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
@@ -24,6 +27,7 @@
     "jest": "^30.2.0",
     "jiti": "^2.6.1",
     "prettier": "^3.7.4",
+    "rimraf": "^6.1.2",
     "ts-jest": "^29.4.6",
     "tsup": "^8.5.1",
     "typescript": "^5.5.3",
