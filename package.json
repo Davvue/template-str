@@ -8,15 +8,21 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsup",
+    "typecheck": "tsc --noEmit",
     "test": "jest",
-    "test:coverage": "jest",
-    "lint": "npx eslint ./src",
-    "lint:fix": "npx eslint ./src --fix",
-    "format": "npx prettier ./src",
-    "format:fix": "npx prettier --write ./src",
-    "prepublishOnly": "npm run test && npm run lint && npm run build"
+    "test:coverage": "jest --coverage",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
+    "format": "prettier --check ./src",
+    "format:fix": "prettier --write ./src",
+    "check": "npm run typecheck && npm run test && npm run lint",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "publish": "changeset publish",
+    "prepublishOnly": "npm run check && npm run build"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
     "@eslint/js": "^9.39.2",
     "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.53.0",
