@@ -1,2 +1,3 @@
+npm run lint -- $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 npm run format:fix -- $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --ignore-unknown
 git update-index --again
