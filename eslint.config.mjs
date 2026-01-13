@@ -15,14 +15,7 @@ export default defineConfig(
   eslint.configs.recommended,
   tseslint.configs.recommended,
   {
-    files: [
-      "*.config.js",
-      "*.config.cjs",
-      "*.config.mjs",
-      "*rc.js",
-      "*rc.cjs",
-      "*rc.mjs",
-    ],
+    files: ["*.config.{js,mjs,cjs}", "*rc.{js,mjs,cjs}"],
     languageOptions: {
       globals: { ...eslintGlobals.node },
     },
