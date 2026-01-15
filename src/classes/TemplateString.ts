@@ -6,7 +6,6 @@ import { TemplateValues } from "../types/TemplateValues";
 export class TemplateString<T extends string> {
   private defaultValues: Partial<TemplateValues<T>> = {};
   private options: TemplateOptions = {
-    caseInsensitive: false,
     replaceEmpty: false,
   };
 
@@ -15,7 +14,8 @@ export class TemplateString<T extends string> {
     options?: DeepPartial<TemplateOptions>,
     defaultValues: Partial<TemplateValues<T>> = {}
   ) {
-    if (options != null) this.options = merge(this.options, options);
+    if (options != null)
+      this.options = merge(this.options, options) as TemplateOptions;
     this.defaultValues = defaultValues;
   }
 
@@ -32,14 +32,8 @@ export class TemplateString<T extends string> {
     };
   }
 
-  public update(template: T) {
-    this.template = template;
-    return this;
-  }
-
   public render(data: Partial<TemplateValues<T>>): string {
-    let re = /(?<!\\)\[([a-zA-Z0-9\-_]+)(?<!\\)\]/gm;
-    if (this.options.caseInsensitive) re = new RegExp(re.source, "gmi");
+    const re = /(?<!\\)\[([a-zA-Z0-9\-_]+)(?<!\\)\]/gm;
     const replacerFn = this.replacer({ ...this.defaultValues, ...data });
     let result = this.template.replace(re, replacerFn);
     result = result.replace(/\\\[/gm, "[").replace(/\\\]/gm, "]");
