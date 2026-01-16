@@ -1,5 +1,11 @@
 # template-str
 
+## 1.0.1
+
+### Patch Changes
+
+- 7523661: Added JSDocs to improve code readability and IntelliSense support
+
 ## 1.0.0
 
 ### Major Changes
