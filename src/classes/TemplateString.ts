@@ -144,11 +144,62 @@ export class TemplateString<T extends string> {
   /**
    * Compiles the template into a reusable rendering function.
    *
-   * This method is not yet implemented.
+   * Calling `compile()` performs all invariant setup work once and returns
+   * a function that can be used to render the template multiple
+   * times with different data. The returned function behaves identical to
+   * calling [`render()`]{@link TemplateString.render}.
    *
-   * @experimental
-   * @returns void
+   * However, unlike [`render()`]{@link TemplateString.render}, the compiled function
+   * captures the current template string, options and default values when calling
+   * `compile()` on a template. Therefore, subsequent changes on the instance's configuration
+   * won't be reflected by the function returned from a call to `compile()`.
+   *
+   * @returns {(data: Partial<TemplateValues<T>>) => string}
+   * A function that renders the template using the provided values
+   *
+   * @example Compiling once and rendering multiple times
+   * ```ts
+   * const tpl = new TemplateString("Hello [name]!");
+   * const render = tpl.compile();
+   *
+   * render({ name: "Alice" }); // "Hello Alice!"
+   * render({ name: "Bob" });   // "Hello Bob!"
+   * ```
+   *
+   * @example Compiled templates respect default values
+   * ```ts
+   * const tpl = new TemplateString(
+   *   "Hello [name]!",
+   *   undefined,
+   *   { name: "Guest" }
+   * );
+   *
+   * const render = tpl.compile();
+   * render({}); // "Hello Guest!"
+   * ```
+   *
+   * @since 1.1.0
    * @public
    */
-  public compile() {}
+  public compile(): (data: Partial<TemplateValues<T>>) => string {
+    const template = this.template;
+    const re = /(?<!\\)\[([a-zA-Z0-9\-_]+)(?<!\\)\]/gm;
+    const defaultValues = { ...this.defaultValues };
+    const options = { ...this.options };
+
+    return (data: Partial<TemplateValues<T>>) => {
+      const merged = { ...defaultValues, ...data };
+
+      const replacer = (match: string, placeholder?: string) => {
+        if (placeholder == null) return match;
+        if (placeholder in merged)
+          return String(merged[placeholder as keyof typeof merged]);
+        return options.replaceEmpty !== false ? options.replaceEmpty : match;
+      };
+
+      let result = template.replace(re, replacer);
+      result = result.replace(/\\\[/gm, "[").replace(/\\\]/gm, "]");
+      return result;
+    };
+  }
 }
