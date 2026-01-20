@@ -1,5 +1,11 @@
 # template-str
 
+## 1.1.0
+
+### Minor Changes
+
+- cb8543d: Added the compile method to support reusable render functions
+
 ## 1.0.1
 
 ### Patch Changes
