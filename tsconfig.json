@@ -11,5 +11,5 @@
     "noEmit": false,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests", "./tsup.config.ts"]
 }

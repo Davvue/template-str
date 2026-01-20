@@ -22,7 +22,6 @@
     "check": "npm run typecheck && npm run test && npm run lint:src",
     "changeset": "changeset",
     "version": "changeset version",
-    "publish": "changeset publish",
     "prepublishOnly": "npm run check && npm run build",
     "prepare": "node .husky/install.mjs"
   },
